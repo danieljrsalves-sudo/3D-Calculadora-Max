@@ -1,4 +1,8 @@
-name: Build Android APK
+      - name: Verificar arquivos do projeto
+        run: |
+          pwd
+          find . -maxdepth 5 -name "settings.gradle" -o -name "build.gradle"
+          name: Build Android APK
 
 on:
   workflow_dispatch:
