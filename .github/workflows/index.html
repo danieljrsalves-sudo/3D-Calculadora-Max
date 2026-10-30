@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D Custo Fácil</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <h1>3D Custo Fácil</h1>
+    <p>Calculadora de custos para impressão 3D</p>
+    <section class="panel">
+      <label>Filamento utilizado (g)<input id="grams" type="number" value="120"></label>
+      <label>Preço do filamento (R$/kg)<input id="spool" type="number" value="100" step="0.01"></label>
+      <label>Tempo de impressão (horas)<input id="hours" type="number" value="5" step="0.1"></label>
+      <label>Consumo médio (W)<input id="watts" type="number" value="95"></label>
+      <label>Tarifa de energia (R$/kWh)<input id="kwh" type="number" value="0.90" step="0.01"></label>
+      <label>Mão de obra (minutos)<input id="minutes" type="number" value="30"></label>
+      <label>Valor da mão de obra (R$/hora)<input id="labor" type="number" value="20" step="0.01"></label>
+      <label>Desgaste da máquina (R$/hora)<input id="wear" type="number" value="1" step="0.01"></label>
+      <label>Outros custos (R$)<input id="extra" type="number" value="0" step="0.01"></label>
+      <label>Margem sobre o custo (%)<input id="margin" type="number" value="30" step="0.1"></label>
+      <button onclick="calculate()">Calcular custo</button>
+    </section>
+    <section class="result" aria-live="polite">
+      <p>Filamento: <strong id="filament">R$ 0,00</strong></p>
+      <p>Energia: <strong id="energy">R$ 0,00</strong></p>
+      <p>Mão de obra: <strong id="laborCost">R$ 0,00</strong></p>
+      <p>Desgaste: <strong id="wearCost">R$ 0,00</strong></p>
+      <p>Custo total: <strong id="total">R$ 0,00</strong></p>
+      <h2>Preço sugerido: <span id="price">R$ 0,00</span></h2>
+    </section>
+  </main>
+<script>
+function money(n){return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function val(id){return Math.max(0,Number(document.getElementById(id).value)||0);}
+function calculate(){
+ const filament=val('grams')/1000*val('spool');
+ const energy=val('watts')/1000*val('hours')*val('kwh');
+ const labor=val('minutes')/60*val('labor');
+ const wear=val('hours')*val('wear');
+ const total=filament+energy+labor+wear+val('extra');
+ const price=total*(1+val('margin')/100);
+ document.getElementById('filament').textContent=money(filament);
+ document.getElementById('energy').textContent=money(energy);
+ document.getElementById('laborCost').textContent=money(labor);
+ document.getElementById('wearCost').textContent=money(wear);
+ document.getElementById('total').textContent=money(total);
+ document.getElementById('price').textContent=money(price);
+}
+calculate();
+</script>
+</body>
+</html>

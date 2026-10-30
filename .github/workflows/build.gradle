@@ -1,0 +1,16 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'br.com.danne.custofacil'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'br.com.danne.custofacil'
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+    }
+}
